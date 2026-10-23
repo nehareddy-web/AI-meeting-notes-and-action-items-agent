@@ -1,0 +1,8 @@
+langgraph
+groq
+jsonschema
+python-dotenv
+requests
+pandas
+numpy
+scipy

@@ -1,0 +1,5 @@
+venv/
+.env
+meetings.db
+__pycache__/
+data/*.jsonl

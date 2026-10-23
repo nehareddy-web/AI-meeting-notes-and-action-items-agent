@@ -4,7 +4,24 @@ A LangGraph agent that turns meeting transcripts (and other documents) into **sc
 summaries, decisions, and action items with owners and deadlines. Results are validated, optionally fact-checked,
 scored against ground truth, and stored in SQL for analytics.
 
-Built with **LangGraph · Groq (openai/gpt-oss-120b) · SQLite · jsonschema · pandas**
+Built with **LangGraph · Groq (openai/gpt-oss-120b) · SQLite · jsonschema · pandas**.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[prep<br/>modality-aware cleaning] --> B[extract<br/>LLM + JSON schema]
+    B --> C{validate<br/>jsonschema}
+    C -- invalid, retries left --> B
+    C -- valid, reflect=on --> D[critique<br/>LLM fact-check]
+    D -- unsupported, retries left --> B
+    C -- valid --> E[grade<br/>vs ground truth]
+    D -- grounded --> E
+    E --> F{approve<br/>human-in-the-loop}
+    F -- yes --> G[save to SQL]
+    F -- no --> H((end))
+    G --> I[notify<br/>Slack optional]
+```
 
 ## Features
 
